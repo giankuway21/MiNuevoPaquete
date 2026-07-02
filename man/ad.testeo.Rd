@@ -36,9 +36,9 @@ A list with class \code{htest} containing the following components:
 The Anderson-Darling test is an EDF omnibus test for the composite hypothesis of normality.
 The test statistic is:
 
-\mjsdeqn{A^2 = -n - \frac{1}{n} \sum_{i=1}^{n} (2i - 1) \left[ \ln(p_{(i)}) + \ln(1 - p_{(n-i+1)}) \right]}
+\deqn{A^2 = -n - \frac{1}{n} \sum_{i=1}^{n} (2i - 1) [ \ln(p_{(i)}) + \ln(1 - p_{(n-i+1)}) ]}
 
-where \mjseqn{p_{(i)} = \Phi([x_{(i)} - \overline{x}]/s)}. Here, \mjseqn{\Phi} is the cumulative distribution function of the standard normal distribution, and \mjseqn{\overline{x}} and \mjseqn{s} are mean and standard deviation of the data values. The p-value is computed from the modified statistic \mjseqn{Z=A^2 (1.0 + 0.75/n +2.25/n^{2})} according to Table 4.9 in Stephens (1986).
+where \eqn{p_{(i)} = \Phi([x_{(i)} - \bar{x}]/s)}. Here, \eqn{\Phi} is the cumulative distribution function of the standard normal distribution, and \eqn{\bar{x}} and \eqn{s} are mean and standard deviation of the data values. The p-value is computed from the modified statistic \eqn{Z = A^2 (1.0 + 0.75/n + 2.25/n^2)} according to Table 4.9 in Stephens (1986).
 }
 
 \references{

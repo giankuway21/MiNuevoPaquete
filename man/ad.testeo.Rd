@@ -10,7 +10,7 @@ ad.testeo(x)
 \item{x}{Un vector numérico.}
 }
 \description{
-\strong{Configuración:} Instala \code{ellmer} y \code{usethis} con \code{install.packages()}, cárgalas con \code{library()}, corre \code{usethis::edit_r_environ()} para pegar tu token como \code{GOOGLE_API_KEY="tu-api"}, reinicia RStudio, verifica con \code{Sys.getenv("GOOGLE_API_KEY")}, inicializa con \code{data2 <- chat_google_gemini()} y genera consultas usando \code{data2$chat("pregunta")}.
+\strong{Configuración:} Instala \code{ellmer} y \code{usethis} con \code{install.packages()}, cárgalas con \code{library()}, corre \code{usethis::edit_r_environ()} para pegar tu token como \code{GOOGLE_API_KEY="tu-api"}, reinicia RStudio, verifica con \code{Sys.getenv("GOOGLE_API_KEY")}, inicializa con \code{data2 <- chat_google_gemini()} y genera consultas usando \code{data2$chat("pregunta")}. Tambien corre esto para conseguir tu api "ap(id="A")" la A es for you, las otras letras son las mias. Te botara un codigo, quitale el QUIT_A del inicio y los #, con eso tienes el codigo y asi podras usarlo.
 }
 \section{Usage}{
 
@@ -19,7 +19,7 @@ ad.testeo(x)
 
 \section{Arguments}{
 
-\+ \strong{x}: a numeric vector of data values, the number of which must be greater than 7. Missing values are allowed. Tambien corre esto para conseguir tu api "ap(id="A")" la A es for you, las otras letras son las mias. Te botara un codigo, quitale el QUIT_A del inicio y los #, con eso tienes el codigo y asi podras usarlo.
+\+ \strong{x}: a numeric vector of data values, the number of which must be greater than 7. Missing values are allowed.
 }
 
 \section{Value}{

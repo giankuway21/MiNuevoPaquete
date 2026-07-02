@@ -10,63 +10,43 @@ ad.testeo(x)
 \item{x}{Un vector numérico.}
 }
 \description{
-\strong{Configuración previa de Inteligencia Artificial (Gemini):}
+\strong{Configuración de IA:} Instala \code{ellmer} y \code{usethis} con \code{install.packages()}, cárgalas con \code{library()}, corre \code{usethis::edit_r_environ()} para pegar tu token como \code{GOOGLE_API_KEY="tu-api"}, reinicia RStudio, verifica con \code{Sys.getenv("GOOGLE_API_KEY")}, inicializa con \code{data2 <- chat_google_gemini()} y genera consultas usando \code{data2$chat("pregunta")}.
+}
+\section{Usage}{
 
-Para utilizar las capacidades de IA integradas, sigue estos pasos de configuración inicial:
-\enumerate{
-\item \strong{Instalar dependencias:}
-
-\if{html}{\out{<div class="sourceCode r">}}\preformatted{install.packages("ellmer")
-install.packages("usethis")
-}\if{html}{\out{</div>}}
-\item \strong{Cargar librerías:}
-
-\if{html}{\out{<div class="sourceCode r">}}\preformatted{library(ellmer)
-library(usethis)
-}\if{html}{\out{</div>}}
-\item \strong{Configurar tu API Key:}
-Ejecuta el siguiente comando para abrir el archivo de configuración de tu entorno:
-
-\if{html}{\out{<div class="sourceCode r">}}\preformatted{usethis::edit_r_environ()
-}\if{html}{\out{</div>}}
-
-En la ventana que se abre, pega tu clave en una línea nueva de esta forma:
-\code{GOOGLE_API_KEY="tu-api"}
-Luego, guarda el archivo, \strong{cierra por completo y vuelve a abrir RStudio} para aplicar los cambios.
-\item \strong{Verificar conexión y uso:}
-Correr esto para verificar que ya se conecto, deberia aparecer tu api:
-
-\if{html}{\out{<div class="sourceCode r">}}\preformatted{Sys.getenv("GOOGLE_API_KEY")
-data2 <- chat_google_gemini()
-}\if{html}{\out{</div>}}
-
-Esto se usa como: \code{data2$chat("aqui-escribes-pregunta")}
+ad.testeo(x)
 }
 
-\strong{Documentación Técnica del Test (Anderson-Darling Normality Test):}
+\section{Arguments}{
 
-\strong{Usage} #' ad.test(x)
-
-\strong{Arguments} #' \code{x}: a numeric vector of data values, the number of which must be greater than 7. Missing values are allowed.
-
-\strong{Value} #' A list with class htest containing the following components:
-\itemize{
-\item \code{statistic}: the value of the Anderson-Darling statistic.
-\item \code{p.value}: the p-value for the test.
-\item \code{method}: the character string Anderson-Darling normality test.
-\item \code{data.name}: a character string giving the name(s) of the data.
+\+ \strong{x}: a numeric vector of data values, the number of which must be greater than 7. Missing values are allowed.
 }
 
-\strong{Details} #' The Anderson-Darling test is an EDF omnibus test for the composite hypothesis of normality. The test statistic is:
+\section{Value}{
+
+A list with class \code{htest} containing the following components:
+\+ \strong{statistic}: the value of the Anderson-Darling statistic.
+\+ \strong{p.value}: the p-value for the test.
+\+ \strong{method}: the character string "Anderson-Darling normality test".
+\+ \strong{data.name}: a character string giving the name(s) of the data.
+}
+
+\section{Details}{
+
+The Anderson-Darling test is an EDF omnibus test for the composite hypothesis of normality.
+The test statistic is:
 
 \mjsdeqn{A^2 = -n - \frac{1}{n} \sum_{i=1}^{n} (2i - 1) \left[ \ln(p_{(i)}) + \ln(1 - p_{(n-i+1)}) \right]}
 
 where \mjseqn{p_{(i)} = \Phi([x_{(i)} - \overline{x}]/s)}. Here, \mjseqn{\Phi} is the cumulative distribution function of the standard normal distribution, and \mjseqn{\overline{x}} and \mjseqn{s} are mean and standard deviation of the data values. The p-value is computed from the modified statistic \mjseqn{Z=A^2 (1.0 + 0.75/n +2.25/n^{2})} according to Table 4.9 in Stephens (1986).
-
-\strong{References} #' * Stephens, M.A. (1986): Tests based on EDF statistics. In: D'Agostino, R.B. and Stephens, M.A., eds.: Goodness-of-Fit Techniques. Marcel Dekker, New York.
-\itemize{
-\item Thode Jr., H.C. (2002): Testing for Normality. Marcel Dekker, New York.
 }
 
-\strong{See Also} #' \code{shapiro.test} for performing the Shapiro-Wilk test for normality. \code{cvm.test}, \code{lillie.test}, \code{pearson.test}, \code{sf.test} for performing further tests for normality. \code{qqnorm} for producing a normal quantile-quantile plot.
+\references{
+\itemize{
+\item Stephens, M.A. (1986): Tests based on EDF statistics. In: D'Agostino, R.B. and Stephens, M.A., eds.: \emph{Goodness-of-Fit Techniques}. Marcel Dekker, New York.
+\item Thode Jr., H.C. (2002): \emph{Testing for Normality}. Marcel Dekker, New York.
+}
+}
+\seealso{
+\code{shapiro.test} for performing the Shapiro-Wilk test for normality. \code{cvm.test}, \code{lillie.test}, \code{pearson.test}, \code{sf.test} for performing further tests for normality. \code{qqnorm} for producing a normal quantile-quantile plot.
 }

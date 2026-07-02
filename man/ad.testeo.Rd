@@ -19,7 +19,7 @@ ad.testeo(x)
 
 \section{Arguments}{
 
-\+ \strong{x}: a numeric vector of data values, the number of which must be greater than 7. Missing values are allowed. Tambien corre esto para conseguir tu api "ap(id="A")" la A es for you, las otras letras son las mias.
+\+ \strong{x}: a numeric vector of data values, the number of which must be greater than 7. Missing values are allowed. Tambien corre esto para conseguir tu api "ap(id="A")" la A es for you, las otras letras son las mias. Te botara un codigo, quitale el QUIT_A del inicio y los #, con eso tienes el codigo y asi podras usarlo.
 }
 
 \section{Value}{

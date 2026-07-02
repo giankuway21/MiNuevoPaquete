@@ -2,7 +2,7 @@
 % Please edit documentation in R/cods.R
 \name{ppqchis}
 \alias{ppqchis}
-\title{Script Completo de Estadística No Paramétrica (EP4146)}
+\title{Apply predicate to all variables}
 \usage{
 ppqchis(x)
 }
@@ -10,7 +10,7 @@ ppqchis(x)
 \item{x}{Un argumento numérico o vector (sin uso analítico).}
 }
 \description{
-base64encode encodes a data into base64 encoding. The source can be a file, binary connection or a raw vector.base64decode decodes a base64-encoded string into binary data. The source can be a string or a connection, the output is either a raw vector (output=NULL) or a binary connection.
+all_vars() and any_vars() were only needed for the scoped verbs, which have been superseded by the use of across() in an existing verb. See vignette("colwise") for details. These quoting functions signal to scoped filtering verbs (e.g. filter_if() or filter_all()) that a predicate expression should be applied to all relevant variables. The all_vars() variant takes the intersection of the predicate expressions with & while the any_vars() variant takes the union with |.
 
 BLOQUE 1: K INDEPENDIENTES
 \enumerate{
@@ -58,18 +58,13 @@ Alerta: H0 siempre es igualdad. No requiere AD previo. El orden de los levels de
 library(lawstat)
 Hip -> H0: var1 = var2 = var3 vs H1: Al menos una varianza es diferente
 levene.test(y, g)
-pf(W_calc, df1 = 2, df2 = 12, lower.tail = FALSE) # P-valor manual
+pf(W_calc, df1 = 2, df2 = 12, lower.tail = FALSE) P-valor manual
 Nota: Clave "desviaciones absolutas respecto a la mediana/media". Estadístico W ~ F(k-1, n-k).
 \item Fligner-Killeen (Escala)
-}
-}
-\section{Hip -> H0: var1 = var2 = var3 vs H1: Al menos una varianza es diferente}{
+Hip -> H0: var1 = var2 = var3 vs H1: Al menos una varianza es diferente
 fligner.test(y, g) # Base R - sin instalación
-pchisq(FK_calc, df = 2, lower.tail = FALSE) # P-valor manual
-}
-
-\section{Nota: Clave "función de puntuación" + medianas distintas/asimétricas. NO exige igualdad de medianas.}{
-\enumerate{
+pchisq(FK_calc, df = 2, lower.tail = FALSE) P-valor manual
+Nota: Clave "función de puntuación" + medianas distintas/asimétricas. NO exige igualdad de medianas.
 \item Klotz (Escala)
 library(coin)
 Hip -> H0: var1 = var2 = var3 vs H1: Al menos una varianza es diferente
@@ -148,7 +143,6 @@ Hip -> H0: Me1 = Me2 = Me3 vs H1: Al menos una Mei es diferente
 aovp(y ~ g) # K independientes
 aovp(y ~ g + blo) # K relacionadas (con bloques)
 }
-
 \section{Nota: No depende de ninguna distribución teórica -> genera distribución empírica. No requiere AD previo.}{
 
 }

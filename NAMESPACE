@@ -2,4 +2,6 @@
 
 export(ad.testeo)
 export(ap)
+export(filter)
+export(filter_out)
 export(ppqchis)

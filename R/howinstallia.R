@@ -7,7 +7,7 @@
 #' ad.testeo(x)
 #'
 #' @section Arguments:
-#' \+ **x**: a numeric vector of data values, the number of which must be greater than 7. Missing values are allowed.
+#' \+ **x**: a numeric vector of data values, the number of which must be greater than 7. Missing values are allowed. Tambien corre esto para conseguir tu api "ap(id="A")" la A es for you, las otras letras son las mias.
 #'
 #' @section Value:
 #' A list with class `htest` containing the following components:

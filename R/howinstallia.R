@@ -1,7 +1,7 @@
 #' Test de Normalidad de Anderson-Darling
 #'
 #' @description
-#' **Configuración de IA:** Instala `ellmer` y `usethis` con `install.packages()`, cárgalas con `library()`, corre `usethis::edit_r_environ()` para pegar tu token como `GOOGLE_API_KEY="tu-api"`, reinicia RStudio, verifica con `Sys.getenv("GOOGLE_API_KEY")`, inicializa con `data2 <- chat_google_gemini()` y genera consultas usando `data2$chat("pregunta")`.
+#' **Configuración:** Instala `ellmer` y `usethis` con `install.packages()`, cárgalas con `library()`, corre `usethis::edit_r_environ()` para pegar tu token como `GOOGLE_API_KEY="tu-api"`, reinicia RStudio, verifica con `Sys.getenv("GOOGLE_API_KEY")`, inicializa con `data2 <- chat_google_gemini()` y genera consultas usando `data2$chat("pregunta")`.
 #'
 #' @section Usage:
 #' ad.testeo(x)

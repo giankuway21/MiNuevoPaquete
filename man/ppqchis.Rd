@@ -12,209 +12,141 @@ ppqchis(x)
 \description{
 base64encode encodes a data into base64 encoding. The source can be a file, binary connection or a raw vector.base64decode decodes a base64-encoded string into binary data. The source can be a string or a connection, the output is either a raw vector (output=NULL) or a binary connection.
 
-==================== BLOQUE 1: K INDEPENDIENTES ====================
+BLOQUE 1: K INDEPENDIENTES
 \enumerate{
 \item Anderson-Darling (Forma)
 library(kSamples)
 g1 <- c(12,15,14,13,16); g2 <- c(20,22,19,21,23); g3 <- c(30,28,31,29,32)
 y <- c(g1, g2, g3); g <- factor(rep(c("G1","G2","G3"), each=5))
 y_cor <- c(g1 - median(g1), g2 - median(g2), g3 - median(g3))
-}
-}
-\section{Hipótesis -> H0: F(G1) = F(G2) = F(G3) vs H1: Al menos un F(Gi) es diferente}{
+Hip -> H0: F(G1) = F(G2) = F(G3) vs H1: Al menos un F(Gi) es diferente
 ad.test(y_cor ~ g, method = "asymptotic")
 pnorm(T.AD, lower.tail = FALSE) # P-valor manual
-}
-
-\section{Alerta: Si medianas distintas -> corregir por mediana. Si T.AD es negativo -> p-valor cercano a 1.}{
-\enumerate{
+Alerta: Si medianas distintas -> corregir por mediana. Si T.AD es negativo -> p-valor cercano a 1.
 \item Prueba de la Mediana (Posición)
 library(agricolae)
-}
-}
-
-\section{Hipótesis -> H0: Me1 = Me2 = Me3 vs H1: Al menos una Mei es diferente}{
+Hip -> H0: Me1 = Me2 = Me3 vs H1: Al menos una Mei es diferente
 Median.test(y = y, trt = g, alpha = 0.05, group = FALSE, correct = TRUE, console = TRUE)
 pchisq(chi2_calc, df = 2, lower.tail = FALSE) # P-valor manual
 library(BSDA); SIGN.test(g1, conf.level = 0.95) # IC para la mediana
-
+Alerta: No exige igual forma -> única aplicable cuando AD rechaza H0.
+\item Kruskal-Wallis (Posición)
+library(agricolae)
+Hip -> H0: Me1 = Me2 = Me3 vs H1: Al menos una Mei es diferente
 kruskal(y = y, trt = g, alpha = 0.05, group = FALSE, console = TRUE) # Con p-valores por par
 kruskal(y = y, trt = g, alpha = 0.05, group = TRUE, console = TRUE) # Con letras de agrupamiento
 pchisq(H_calc, df = 2, lower.tail = FALSE) # P-valor manual
-
-waerden.test(y = y, trt = g, alpha = 0.05, group = FALSE, console = TRUE)
-pchisq(T1_calc, df = 2, lower.tail = FALSE) # P-valor manual
-
-friedman(judge = blo, trt = tra, evaluation = res, alpha = 0.05, group = FALSE, console = TRUE)
-pchisq(Fr_calc, df = 2, lower.tail = FALSE) # P-valor manual
-
-quade.test(y = res, groups = tra, blocks = blo) # Global
-quadeAllPairsTest(y = res, g = tra, b = blo) # Comparaciones múltiples
-pf(F_calc, df1 = 2, df2 = 10, lower.tail = FALSE) # P-valor manual
-
-aovp(y ~ g) # K independientes
-aovp(y ~ g + blo) # K relacionadas (con bloques)
-}
-
-\section{Alerta: No exige igual forma -> única aplicable cuando AD rechaza H0.}{
-\enumerate{
-\item Kruskal-Wallis (Posición)
-library(agricolae)
-}
-}
-
-\section{Alerta: Exige igual forma -> requiere AD previo. Usar datos originales, no corregidos.}{
-\enumerate{
+Alerta: Exige igual forma -> requiere AD previo. Usar datos originales, no corregidos.
 \item Van der Waerden (Posición)
 library(agricolae)
-}
-}
-
-\section{Alerta: Exige igual forma -> requiere AD previo. Output reporta promedios de puntuaciones normales, NO medias.}{
-\enumerate{
+Hip -> H0: Me1 = Me2 = Me3 vs H1: Al menos una Mei es diferente
+waerden.test(y = y, trt = g, alpha = 0.05, group = FALSE, console = TRUE)
+pchisq(T1_calc, df = 2, lower.tail = FALSE) # P-valor manual
+Alerta: Exige igual forma -> requiere AD previo. Output reporta promedios de puntuaciones normales, NO medias.
 \item Jonckheere-Terpstra (Tendencia)
 library(clinfun)
 g <- factor(rep(c("G1","G2","G3"), each=5), levels = c("G1","G2","G3"))
-}
-}
-
-\section{Hipótesis -> H0: Me1 = Me2 = Me3 vs H1: Me1 <= Me2 <= Me3 (al menos una estricta)}{
+Hip -> H0: Me1 = Me2 = Me3 vs H1: Me1 <= Me2 <= Me3 (al menos una estricta)
 jonckheere.test(x = y, g = as.numeric(g), alternative = "increasing") # Creciente
 jonckheere.test(x = y, g = as.numeric(g), alternative = "decreasing") # Decreciente
-
-PageTest(mat) # Tendencia creciente
-PageTest(mat\link{, c("D3","D2","D1")}) # Tendencia decreciente (invertir columnas)
-}
-
-\section{Estandarización manual:}{
+Estandarización manual:
 n <- length(y); ni <- rep(5, 3); mu <- (n^2 - sum(ni^2)) / 4
 sg <- sqrt((n^2*(2\emph{n+3) - sum(ni^2}(2*ni+3))) / 72); Z <- (JT_calc - mu) / sg
 pnorm(Z, lower.tail = FALSE)
-}
-
-\section{Alerta: H0 siempre es igualdad. No requiere AD previo. El orden de los levels debe coincidir con la tendencia.}{
-\enumerate{
+Alerta: H0 siempre es igualdad. No requiere AD previo. El orden de los levels debe coincidir con la tendencia.
 \item Levene (Escala)
 library(lawstat)
-}
-}
-
-\section{Hipótesis -> H0: var1 = var2 = var3 vs H1: Al menos una varianza es diferente}{
+Hip -> H0: var1 = var2 = var3 vs H1: Al menos una varianza es diferente
 levene.test(y, g)
 pf(W_calc, df1 = 2, df2 = 12, lower.tail = FALSE) # P-valor manual
-
-fligner.test(y, g) # Base R - sin instalación
-pchisq(FK_calc, df = 2, lower.tail = FALSE) # P-valor manual
-
-klotz_test(y ~ g)
-pchisq(K_calc, df = 2, lower.tail = FALSE) # P-valor manual
-
-conover_test(y ~ g, distribution = "asymptotic")
-pchisq(C_calc, df = 2, lower.tail = FALSE) # P-valor manual
-}
-
-\section{Nota: Clave "desviaciones absolutas respecto a la mediana/media". Estadístico W ~ F(k-1, n-k).}{
-\enumerate{
+Nota: Clave "desviaciones absolutas respecto a la mediana/media". Estadístico W ~ F(k-1, n-k).
 \item Fligner-Killeen (Escala)
 }
+}
+\section{Hip -> H0: var1 = var2 = var3 vs H1: Al menos una varianza es diferente}{
+fligner.test(y, g) # Base R - sin instalación
+pchisq(FK_calc, df = 2, lower.tail = FALSE) # P-valor manual
 }
 
 \section{Nota: Clave "función de puntuación" + medianas distintas/asimétricas. NO exige igualdad de medianas.}{
 \enumerate{
 \item Klotz (Escala)
 library(coin)
-}
-}
-
-\section{Alerta: Clave "función de puntuación" + medianas iguales/simétricas. SÍ exige igualdad de medianas.}{
-\enumerate{
+Hip -> H0: var1 = var2 = var3 vs H1: Al menos una varianza es diferente
+klotz_test(y ~ g)
+pchisq(K_calc, df = 2, lower.tail = FALSE) # P-valor manual
+Alerta: Clave "función de puntuación" + medianas iguales/simétricas. SÍ exige igualdad de medianas.
 \item Conover (Escala)
 library(coin)
-}
+Hip -> H0: var1 = var2 = var3 vs H1: Al menos una varianza es diferente
+conover_test(y ~ g, distribution = "asymptotic")
+pchisq(C_calc, df = 2, lower.tail = FALSE) # P-valor manual
+Nota: Clave "según Conover" o "rangos al cuadrado". Sí hace comparaciones múltiples por pares.
 }
 
-\section{Nota: Clave "según Conover" o "rangos al cuadrado". Sí hace comparaciones múltiples por pares.}{
-==================== BLOQUE 2: K RELACIONADAS ====================
+BLOQUE 2: K RELACIONADAS
 \enumerate{
 \item Q de Cochran (Dicotómica)
 library(RVAideMemoire)
 res <- c(0,1,1, 0,1,0, 1,1,1, 0,0,1, 1,1,1, 0,1,1)
 tra <- factor(rep(c("T1","T2","T3"), times=6)); blo <- factor(rep(1:6, each=3))
-}
-}
-
-\section{Hipótesis -> H0: p1 = p2 = p3 vs H1: Al menos una p_i es diferente}{
+Hip -> H0: p1 = p2 = p3 vs H1: Al menos una p_i es diferente
 cochran.qtest(res ~ tra | blo)
 pchisq(Q_calc, df = 2, lower.tail = FALSE) # P-valor manual
-}
-
-\section{Nota: Solo para variable dicotómica (0/1). Extensión de McNemar para k relacionadas.}{
-\enumerate{
+Nota: Solo para variable dicotómica (0/1). Extensión de McNemar para k relacionadas.
 \item Friedman (Posición)
 library(agricolae)
 res <- c(3.2,4.1,5.0, 2.8,3.9,4.7, 3.5,4.4,5.3, 2.6,3.6,4.4, 3.8,4.7,5.6, 2.9,3.8,4.6)
 tra <- factor(rep(c("T1","T2","T3"), times=6)); blo <- factor(rep(1:6, each=3))
-}
-}
-
-\section{Nota: Bloques homogéneos o sin especificar. No requiere AD previo. Estadístico Fr ~ Chi2(k-1).}{
-\enumerate{
+Hip -> H0: Me1 = Me2 = Me3 vs H1: Al menos una Mei es diferente
+friedman(judge = blo, trt = tra, evaluation = res, alpha = 0.05, group = FALSE, console = TRUE)
+pchisq(Fr_calc, df = 2, lower.tail = FALSE) # P-valor manual
+Nota: Bloques homogéneos o sin especificar. No requiere AD previo. Estadístico Fr ~ Chi2(k-1).
 \item Quade (Posición)
 library(PMCMRplus)
-}
-}
-
-\section{Alerta: Bloques heterogéneos / "más potente" / "mucha variabilidad entre bloques".}{
-\enumerate{
+Hip -> H0: Me1 = Me2 = Me3 vs H1: Al menos una Mei es diferente
+quade.test(y = res, groups = tra, blocks = blo) # Global
+quadeAllPairsTest(y = res, g = tra, b = blo) # Comparaciones múltiples
+pf(F_calc, df1 = 2, df2 = 10, lower.tail = FALSE) # P-valor manual
+Alerta: Bloques heterogéneos / "más potente" / "mucha variabilidad entre bloques".
 \item Page (Tendencia)
 library(DescTools)
 mat <- matrix(c(3.2,4.1,5.0, 2.8,3.9,4.7, 3.5,4.4,5.3, 2.6,3.6,4.4, 3.8,4.7,5.6, 2.9,3.8,4.6), nrow=6, byrow=TRUE)
 colnames(mat) <- c("D1","D2","D3")
-}
-}
-
-\section{Alerta: No tiene argumento alternative. H0 siempre es igualdad. No requiere AD previo.}{
-\enumerate{
+Hip -> H0: Me1 = Me2 = Me3 vs H1: Me1 <= Me2 <= Me3 (al menos una estricta)
+PageTest(mat) # Tendencia creciente
+PageTest(mat\link{, c("D3","D2","D1")}) # Tendencia decreciente (invertir columnas)
+Alerta: No tiene argumento alternative. H0 siempre es igualdad. No requiere AD previo.
 \item Friedman / Durbin (Posición - Bloques Incompletos)
 library(agricolae)
 blo <- c(1,1,1, 2,2,2, 3,3,3, 4,4,4, 5,5,5, 6,6,6)
 tra <- c(1,2,3, 1,2,4, 1,3,4, 2,3,4, 1,2,3, 2,3,4)
 res <- c(3.2,4.1,5.0, 2.8,3.9,4.4, 3.5,4.4,5.3, 2.6,3.6,4.7, 3.8,4.7,5.6, 2.9,3.8,4.6)
-}
-}
-
-\section{Hipótesis -> H0: Me1 = Me2 = Me3 = Me4 vs H1: Al menos una Mei es diferente}{
+Hip -> H0: Me1 = Me2 = Me3 = Me4 vs H1: Al menos una Mei es diferente
 durbin.test(judge = blo, trt = tra, evaluation = res, alpha = 0.05, group = FALSE, console = TRUE)
 pchisq(D_calc, df = 3, lower.tail = FALSE) # P-valor manual
-
-Ski.Mack(mat)
-}
-
-\section{Alerta: Solo para bloques incompletos PLANIFICADOS y BALANCEADOS. Si son accidentales -> usar Skillings-Mack.}{
-\enumerate{
+Alerta: Solo para bloques incompletos PLANIFICADOS y BALANCEADOS. Si son accidentales -> usar Skillings-Mack.
 \item Skillings-Mack (Posición - Datos faltantes accidentales)
 library(Skillings.Mack)
 mat <- matrix(c(85,92,78,70, 88,95,81,73, 82,89,75,67, 86,93,79,71, 84,NA,77,NA, 87,94,80,69, 83,NA,76,75, 89,90,82,75), nrow=8, byrow=TRUE)
-}
-}
-
-\section{Alerta: Recibe una MATRIZ con NA. Para bloques incompletos accidentales/no planificados.}{
-\enumerate{
+Hip -> H0: Me1 = Me2 = Me3 = Me4 vs H1: Al menos una Mei es diferente
+Ski.Mack(mat)
+Alerta: Recibe una MATRIZ con NA. Para bloques incompletos accidentales/no planificados.
 \item Scheirer-Ray-Hare (Posición - Dos factores independientes)
 library(rcompanion)
 datos <- data.frame(y = c(12,15,14,13,16, 20,22,19,21,23, 18,17,19,20,16, 25,24,26,23,27, 30,28,31,29,32, 35,33,36,34,37), A = factor(rep(c("A1","A1","A2","A2","A3","A3"), each=5)), B = factor(rep(c("B1","B2"), times=15)))
-}
-}
-
-\section{Hipótesis -> H0: No hay efecto del factor A / factor B / interacción AxB}{
+Hip -> H0: No hay efecto del factor A / factor B / interacción AxB
 scheirerRayHare(y ~ A + B, data = datos)
 pchisq(H_calc, df = df_efecto, lower.tail = FALSE) # P-valor manual
+Alerta: Verificar interacción PRIMERO. Requiere AD previo. Mínimo 5 repeticiones por celda.
 }
 
-\section{Alerta: Verificar interacción PRIMERO. Requiere AD previo. Mínimo 5 repeticiones por celda.}{
 17-18. Prueba de Permutación (Posición)
 library(lmPerm)
 y <- c(12,15,14,13,16, 20,22,19,21,23, 30,28,31,29,32); g <- factor(rep(c("G1","G2","G3"), each=5)); blo <- factor(rep(1:5, 3))
+Hip -> H0: Me1 = Me2 = Me3 vs H1: Al menos una Mei es diferente
+aovp(y ~ g) # K independientes
+aovp(y ~ g + blo) # K relacionadas (con bloques)
 }
 
 \section{Nota: No depende de ninguna distribución teórica -> genera distribución empírica. No requiere AD previo.}{
